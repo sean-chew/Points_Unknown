@@ -1,0 +1,33 @@
+### Set Environment ------------------------------------------------------------
+# Clear the environment
+rm(list=ls())
+gc()
+# So the code will compile warnings as per usual
+options(warn = 0)
+# Turn off scientific notation
+options(scipen = 999)
+### Load Packages --------------------------------------------------------------
+
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse,magrittr,janitor,tidycensus,data.table, ggplot2, scales,skimr,
+openxlsx, ggspatial, rgeos, data.table,RColorBrewer, collapse, sf, glue, XML, tm, here, 
+repurrrsive, tmap,tidygraph, nabor,igraph,viridis,hrbrthemes,RSocrata,soql,Kendall, broom,
+knitr,googleway,ggmap,mapsapi,osmdata,tigris,units,mapboxapi)
+### Begin Code -----------------------------------------------------------------
+
+    
+files <- list.files("./csvs/")
+
+files <- files[2:length(files)]
+
+test<-read_csv(paste0("./csvs/",files[1]))
+
+read_csvs <- function(list_files){
+    data <- read_csv(paste0("./csvs/",list_files))
+}
+
+all_files <- map_dfr(files,read_csvs)
+
+write_csv(all_files,"./csvs/all_entries.csv")
+
+#all_files_unnest <- all_files %>% unnest()
